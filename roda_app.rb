@@ -5,14 +5,9 @@ require 'sequel'
 require 'bcrypt'
 require 'dotenv/load'
 require 'rack/protection'
+require './config'
 
-Sequel.connect(
-  host:     '127.0.0.1',
-  user:     ENV['PGUSER'],
-  adapter:  'postgres',
-  database: 'roda_app_development',
-  password: ENV['PGPASSWORD']
-)
+Config.db
 
 class RodaApp < Roda
   Sequel::Model.plugin :validation_helpers
@@ -21,8 +16,7 @@ class RodaApp < Roda
   use Rack::Session::Cookie, secret: 'some_nice_long_random_string_DSKJH4378EYR7EGKUFH', key: '_roda_app_session'
   use Rack::Protection
   plugin :csrf
-
-  require './models/user.rb'
+  require './utils.rb'
 
   plugin :static, ['/images', '/css', '/js']
   plugin :render
@@ -40,6 +34,7 @@ class RodaApp < Roda
     r.get 'contact' do
       view('contact')
     end
+
     ##================================================== USER  ==================================================##
 
     r.get 'login' do
@@ -101,6 +96,7 @@ class RodaApp < Roda
             @post = Post.new
             view('posts/new')
           end
+
           r.post do
             @post = Post.new(r['post'])
             @post.user = User[session[:user_id]]
