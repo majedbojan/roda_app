@@ -21,6 +21,8 @@ $ bundle install
 
 In `root` we have all known rails folders there from the MVC pattern, also we interduce those folders:
 
+## Roda Console
+irb -r /models.rb
 
 ## Project Configuration
 

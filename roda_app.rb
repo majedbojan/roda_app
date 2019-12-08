@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 require 'roda'
-require 'Date'
 require 'sequel'
 require 'bcrypt'
+require 'dotenv/load'
 require 'rack/protection'
-p ENV['PGUSER']
-database = 'roda_app_development'
-user     = 'postgres' # ENV['PGUSER']
-password = 'click227' # ENV['PGPASSWORD']
-DB = Sequel.connect(adapter: 'postgres', database: database, host: '127.0.0.1', user: user, password: password)
+
+Sequel.connect(
+  host:     '127.0.0.1',
+  user:     ENV['PGUSER'],
+  adapter:  'postgres',
+  database: 'roda_app_development',
+  password: ENV['PGPASSWORD']
+)
 
 class RodaApp < Roda
   Sequel::Model.plugin :validation_helpers
