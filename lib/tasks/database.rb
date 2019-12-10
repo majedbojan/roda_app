@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Usage
 # rake db:create        # Create the database
 # rake db:drop          # Drop the database
