@@ -5,9 +5,9 @@ require 'sequel'
 require 'bcrypt'
 require 'dotenv/load'
 require 'rack/protection'
-require './config'
+require './config/db'
 
-Config.db
+Config::DB.connect
 
 class RodaApp < Roda
   Sequel::Model.plugin :validation_helpers
@@ -16,10 +16,11 @@ class RodaApp < Roda
   use Rack::Session::Cookie, secret: 'some_nice_long_random_string_DSKJH4378EYR7EGKUFH', key: '_roda_app_session'
   use Rack::Protection
   plugin :csrf
-  require './utils.rb'
+  require './app/models/importable.rb'
 
   plugin :static, ['/images', '/css', '/js']
-  plugin :render
+  plugin :render, views: 'app/views'
+
   plugin :head
   route do |r|
     r.root do

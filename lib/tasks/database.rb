@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+# Usage
+# rake db:create        # Create the database
+# rake db:drop          # Drop the database
+# rake db:migrate       # Perform migration up to latest migration available
+# rake db:migrate:down  # Perform migration down (erase all data)
+# rake db:migrate:up    # Perform migration up to latest migration available
+
 namespace :db do
   namespace :migrate do
     desc 'Perform migration up to latest migration available'
